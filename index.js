@@ -7,28 +7,41 @@ function carMove(){
     audio.play();
 }
 
+function carStop(){
+    let audio = new Audio('mp3/carstop.mp3');
+    audio.play();
+}
 
-const promise = new Promise((resolve,reject) => {
-    let carSteps = 0;
-    
-    btn.addEventListener('click',() =>{
-        carMove();
-        let moveTimer = setInterval(() => {
-            carSteps++;
-            car1.style.left = `${carSteps}px`;
-            
-            if(carSteps === 1000){
+function createCar(steps,msTime){
+    const promise = new Promise((resolve,reject) => {
+        let carSteps = steps;
+        
+        btn.addEventListener('click',() =>{
+            carMove();
+            let moveTimer = setInterval(() => {
+                carSteps++;
+                car1.style.left = `${carSteps}px`;
                 
-                
-                clearInterval(moveTimer);
-                resolve();
-            }
-        },10);
+                if(carSteps === 750){
+                    
+                    clearInterval(moveTimer);
+                    resolve();
+                }
+            },msTime);
+        });
+
+
+        
     });
-    
-});
+
+    return promise;
+}
+
+let promise = createCar(0,10);
+
 
 promise.then(() => {
     finish.innerHTML = 'Car finished';
+    carStop();
     console.log('Promise DONE');
 });
