@@ -1,0 +1,10 @@
+.car1{
+    width:100px;
+    height: 100px;
+    position: absolute;
+    top:0;
+    left:100px;
+}
+.car1 img{
+    width:100%;
+}
