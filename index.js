@@ -49,7 +49,7 @@ Promise.all([promise,promise2,promise3]).then(datas => {
         carResEl.append(AllCarsResult);
         finish.append(carResEl);
     }
-})
+});
 
 
 // promise.then((steps) => {
