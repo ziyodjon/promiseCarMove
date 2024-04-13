@@ -28,9 +28,9 @@ function createCar(car,steps,msTime,finishSteps){
                 
                 if(carSteps === finishSteps){
                     clearInterval(moveTimer);
-                    carMoveAudio.stop();
+                    carMoveAudio.pause();
                     carStopAudio.play();
-                    resolve();
+                    resolve(carSteps);
                 }
             },msTime);
         });
@@ -47,20 +47,24 @@ let promise2 = createCar(car2,0,10,500);
 let promise3 = createCar(car3,0,10,750);
 
 
-promise.then(() => {
-    finish.innerHTML = 'Car finished';
+
+promise.then((steps) => {
+    const info = `Первая машина закончил свой путь и проехала ${steps} метров`;
+    car1.append(info);
     carStop();
     console.log('Promise DONE');
 });
 
-promise2.then(() => {
-    finish.innerHTML = 'Car 2 finished ';
+promise2.then((steps) => {
+    const info = `Вторая машина закончил свой путь и проехала ${steps} метров`;
+    car2.append(info);
     carStop();
     console.log('Promise DONE');
 });
 
-promise3.then(() => {
-    finish.innerHTML = 'Car 3 finished';
+promise3.then((steps) => {
+    const info = `Третья машина закончил свой путь и проехала ${steps} метров`;
+    car3.append(info);
     carStop();
     console.log('Promise DONE');
 });
