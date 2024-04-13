@@ -16,7 +16,7 @@ function carStop(){
     audio.play();
 }
 
-function createCar(car,steps,msTime,finishSteps){
+function createCar(carName,car,steps,msTime,finishSteps){
     const promise = new Promise((resolve,reject) => {
         let carSteps = steps;
         
@@ -27,10 +27,11 @@ function createCar(car,steps,msTime,finishSteps){
                 car.style.left = `${carSteps}px`;
                 
                 if(carSteps === finishSteps){
-                    clearInterval(moveTimer);
+                    
                     carMoveAudio.pause();
                     carStopAudio.play();
-                    resolve(carSteps);
+                    clearInterval(moveTimer);
+                    resolve([carName,carSteps]);
                 }
             },msTime);
         });
@@ -42,29 +43,40 @@ function createCar(car,steps,msTime,finishSteps){
     return promise;
 }
 
-let promise = createCar(car1,0,10,300);
-let promise2 = createCar(car2,0,10,500);
-let promise3 = createCar(car3,0,10,750);
+let promise = createCar('Audi',car1,0,10,600);
+let promise2 = createCar('BMW',car2,0,10,700);
+let promise3 = createCar('BYD',car3,0,10,850);
+
+Promise.all([promise,promise2,promise3]).then(datas => {
+    for(let i = 0; i <= datas.length; i++){
+        let carResEl = document.createElement('div');
+        carResEl.classList.add('carmoveresult'); 
+        const carName = datas[i][0];
+        const carDist = datas[i][1];
+        const AllCarsResult = `Машина ${carName} закончил свой путь и проехала ${carDist} метров`;
+        carResEl.append(AllCarsResult);
+        finish.append(carResEl);
+    }
+})
 
 
+// promise.then((steps) => {
+//     const info = `Первая машина закончил свой путь и проехала ${steps} метров`;
+//     car1.append(info);
+//     carStop();
+//     console.log('Promise DONE');
+// });
 
-promise.then((steps) => {
-    const info = `Первая машина закончил свой путь и проехала ${steps} метров`;
-    car1.append(info);
-    carStop();
-    console.log('Promise DONE');
-});
+// promise2.then((steps) => {
+//     const info = `Вторая машина закончил свой путь и проехала ${steps} метров`;
+//     car2.append(info);
+//     carStop();
+//     console.log('Promise DONE');
+// });
 
-promise2.then((steps) => {
-    const info = `Вторая машина закончил свой путь и проехала ${steps} метров`;
-    car2.append(info);
-    carStop();
-    console.log('Promise DONE');
-});
-
-promise3.then((steps) => {
-    const info = `Третья машина закончил свой путь и проехала ${steps} метров`;
-    car3.append(info);
-    carStop();
-    console.log('Promise DONE');
-});
+// promise3.then((steps) => {
+//     const info = `Третья машина закончил свой путь и проехала ${steps} метров`;
+//     car3.append(info);
+//     carStop();
+//     console.log('Promise DONE');
+// });
