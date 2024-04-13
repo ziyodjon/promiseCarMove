@@ -6,33 +6,25 @@ const finish = document.querySelector('.finish');
 let carMoveAudio = new Audio('mp3/carmove.mp3');
 let carStopAudio = new Audio('mp3/carstop.mp3');
 
-// function carMove(){
-//     let audio = new Audio('mp3/carmove.mp3');
-//     audio.play();
-// }
 
-function carStop(){
-    let audio = new Audio('mp3/carstop.mp3');
-    audio.play();
-}
-
-function createCar(carName,car,steps,msTime,finishSteps){
+function createCar(carName,car,carSteps,msTime,finishSteps){
     const promise = new Promise((resolve,reject) => {
-        let carSteps = steps;
-        
+
         btn.addEventListener('click',() =>{
             carMoveAudio.play();
+
             let moveTimer = setInterval(() => {
                 carSteps++;
                 car.style.left = `${carSteps}px`;
                 
                 if(carSteps === finishSteps){
-                    
                     carMoveAudio.pause();
                     carStopAudio.play();
                     clearInterval(moveTimer);
                     resolve([carName,carSteps]);
+                    btn.setAttribute('disabled','');
                 }
+
             },msTime);
         });
 
